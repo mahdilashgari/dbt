@@ -1,0 +1,735 @@
+version: 2
+
+models:
+  - name: stg_webtracking__datafeeds_raw
+    description: ""
+    columns:
+      - name: job_instance_id
+        description: ""
+        
+      - name: datafeed_date
+        description: ""
+
+      - name: browser
+        description: ""
+
+      - name: campaign
+        description: ""
+
+      - name: date_time
+        description: ""
+
+      - name: activity_date
+        description: ""
+
+      - name: domain
+        description: ""
+
+      - name: duplicate_events
+        description: ""
+
+      - name: duplicate_purchase
+        description: ""
+
+      - name: event_list
+        description: ""
+
+      - name: exclude_hit
+        description: ""
+
+      - name: first_hit_page_url
+        description: ""
+
+      - name: first_hit_pagename
+        description: ""
+
+      - name: first_hit_referrer
+        description: ""
+
+      - name: first_hit_time_gmt
+        description: ""
+
+      - name: geo_city
+        description: ""
+
+      - name: geo_country
+        description: ""
+
+      - name: geo_region
+        description: ""
+
+      - name: geo_zip
+        description: ""
+
+      - name: hit_source
+        description: ""
+
+      - name: hit_time_gmt
+        description: ""
+
+      - name: hitid_high
+        description: ""
+
+      - name: hitid_low
+        description: ""
+
+      - name: last_hit_time_gmt
+        description: ""
+
+      - name: mcvisid
+        description: ""
+
+      - name: mobile_id
+        description: ""
+
+      - name: os
+        description: ""
+
+      - name: paid_search
+        description: ""
+
+      - name: post_browser_height
+        description: ""
+
+      - name: post_browser_width
+        description: ""
+
+      - name: post_campaign
+        description: ""
+
+      - name: post_channel
+        description: ""
+
+      - name: post_cookies
+        description: ""
+
+      - name: post_currency
+        description: ""
+
+      - name: post_evar1
+        description: ""
+
+      - name: post_evar2
+        description: ""
+
+      - name: post_evar3
+        description: ""
+
+      - name: post_evar4
+        description: ""
+
+      - name: post_evar5
+        description: ""
+
+      - name: post_evar6
+        description: ""
+
+      - name: post_evar7
+        description: ""
+
+      - name: post_evar8
+        description: ""
+
+      - name: post_evar9
+        description: ""
+
+      - name: post_evar10
+        description: ""
+
+      - name: post_evar11
+        description: ""
+
+      - name: post_evar12
+        description: ""
+
+      - name: post_evar13
+        description: ""
+
+      - name: post_evar14
+        description: ""
+
+      - name: post_evar15
+        description: ""
+
+      - name: post_evar16
+        description: ""
+
+      - name: post_evar17
+        description: ""
+
+      - name: post_evar18
+        description: ""
+
+      - name: post_evar19
+        description: ""
+
+      - name: post_evar20
+        description: ""
+
+      - name: post_evar21
+        description: ""
+
+      - name: post_evar22
+        description: ""
+
+      - name: post_evar23
+        description: ""
+
+      - name: post_evar24
+        description: ""
+
+      - name: post_evar25
+        description: ""
+
+      - name: post_evar26
+        description: ""
+
+      - name: post_evar27
+        description: ""
+
+      - name: post_evar28
+        description: ""
+
+      - name: post_evar29
+        description: ""
+
+      - name: post_evar30
+        description: ""
+
+      - name: post_evar31
+        description: ""
+
+      - name: post_evar32
+        description: ""
+
+      - name: post_evar33
+        description: ""
+
+      - name: post_evar34
+        description: ""
+
+      - name: post_evar35
+        description: ""
+
+      - name: post_evar36
+        description: ""
+
+      - name: post_evar37
+        description: ""
+
+      - name: post_evar38
+        description: ""
+
+      - name: post_evar39
+        description: ""
+
+      - name: post_evar40
+        description: ""
+
+      - name: post_evar41
+        description: ""
+
+      - name: post_evar42
+        description: ""
+
+      - name: post_evar43
+        description: ""
+
+      - name: post_evar44
+        description: ""
+
+      - name: post_evar45
+        description: ""
+
+      - name: post_evar46
+        description: ""
+
+      - name: post_evar47
+        description: ""
+
+      - name: post_evar48
+        description: ""
+
+      - name: post_evar49
+        description: ""
+
+      - name: post_evar50
+        description: ""
+
+      - name: post_evar51
+        description: ""
+
+      - name: post_evar52
+        description: ""
+
+      - name: post_evar53
+        description: ""
+
+      - name: post_evar54
+        description: ""
+
+      - name: post_evar55
+        description: ""
+
+      - name: post_evar56
+        description: ""
+
+      - name: post_evar57
+        description: ""
+
+      - name: post_evar58
+        description: ""
+
+      - name: post_evar59
+        description: ""
+
+      - name: post_evar60
+        description: ""
+
+      - name: post_evar61
+        description: ""
+
+      - name: post_evar62
+        description: ""
+
+      - name: post_evar63
+        description: ""
+
+      - name: post_evar64
+        description: ""
+
+      - name: post_evar65
+        description: ""
+
+      - name: post_evar66
+        description: ""
+
+      - name: post_evar67
+        description: ""
+
+      - name: post_evar68
+        description: ""
+
+      - name: post_evar69
+        description: ""
+
+      - name: post_evar70
+        description: ""
+
+      - name: post_evar71
+        description: ""
+
+      - name: post_evar72
+        description: ""
+
+      - name: post_evar73
+        description: ""
+
+      - name: post_evar74
+        description: ""
+
+      - name: post_evar75
+        description: ""
+
+      - name: post_evar76
+        description: ""
+
+      - name: post_evar77
+        description: ""
+
+      - name: post_evar78
+        description: ""
+
+      - name: post_evar79
+        description: ""
+
+      - name: post_evar80
+        description: ""
+
+      - name: post_evar81
+        description: ""
+
+      - name: post_evar82
+        description: ""
+
+      - name: post_evar83
+        description: ""
+
+      - name: post_evar84
+        description: ""
+
+      - name: post_evar85
+        description: ""
+
+      - name: post_evar86
+        description: ""
+
+      - name: post_evar87
+        description: ""
+
+      - name: post_evar88
+        description: ""
+
+      - name: post_evar89
+        description: ""
+
+      - name: post_evar90
+        description: ""
+
+      - name: post_evar91
+        description: ""
+
+      - name: post_evar92
+        description: ""
+
+      - name: post_evar93
+        description: ""
+
+      - name: post_evar94
+        description: ""
+
+      - name: post_evar95
+        description: ""
+
+      - name: post_evar96
+        description: ""
+
+      - name: post_evar97
+        description: ""
+
+      - name: post_evar98
+        description: ""
+
+      - name: post_evar99
+        description: ""
+
+      - name: post_evar100
+        description: ""
+
+      - name: post_event_list
+        description: ""
+
+      - name: post_mobileaction
+        description: ""
+
+      - name: post_mobileappid
+        description: ""
+
+      - name: post_mobiledevice
+        description: ""
+
+      - name: post_mobileosversion
+        description: ""
+
+      - name: post_mobileresolution
+        description: ""
+
+      - name: post_mvvar1
+        description: ""
+
+      - name: post_mvvar2
+        description: ""
+
+      - name: post_mvvar3
+        description: ""
+
+      - name: post_page_event_var2
+        description: ""
+
+      - name: post_page_url
+        description: ""
+
+      - name: post_pagename
+        description: ""
+
+      - name: post_persistent_cookie
+        description: ""
+
+      - name: post_product_list
+        description: ""
+
+      - name: post_prop1
+        description: ""
+
+      - name: post_prop2
+        description: ""
+
+      - name: post_prop3
+        description: ""
+
+      - name: post_prop4
+        description: ""
+
+      - name: post_prop5
+        description: ""
+
+      - name: post_prop6
+        description: ""
+
+      - name: post_prop7
+        description: ""
+
+      - name: post_prop8
+        description: ""
+
+      - name: post_prop9
+        description: ""
+
+      - name: post_prop10
+        description: ""
+
+      - name: post_prop11
+        description: ""
+
+      - name: post_prop12
+        description: ""
+
+      - name: post_prop13
+        description: ""
+
+      - name: post_prop14
+        description: ""
+
+      - name: post_prop15
+        description: ""
+
+      - name: post_prop16
+        description: ""
+
+      - name: post_prop17
+        description: ""
+
+      - name: post_prop18
+        description: ""
+
+      - name: post_prop19
+        description: ""
+
+      - name: post_prop20
+        description: ""
+
+      - name: post_prop21
+        description: ""
+
+      - name: post_prop22
+        description: ""
+
+      - name: post_prop23
+        description: ""
+
+      - name: post_prop24
+        description: ""
+
+      - name: post_prop25
+        description: ""
+
+      - name: post_prop26
+        description: ""
+
+      - name: post_prop27
+        description: ""
+
+      - name: post_prop28
+        description: ""
+
+      - name: post_prop29
+        description: ""
+
+      - name: post_prop30
+        description: ""
+
+      - name: post_prop31
+        description: ""
+
+      - name: post_prop32
+        description: ""
+
+      - name: post_prop33
+        description: ""
+
+      - name: post_prop34
+        description: ""
+
+      - name: post_prop35
+        description: ""
+
+      - name: post_prop36
+        description: ""
+
+      - name: post_prop37
+        description: ""
+
+      - name: post_prop38
+        description: ""
+
+      - name: post_prop39
+        description: ""
+
+      - name: post_prop40
+        description: ""
+
+      - name: post_prop41
+        description: ""
+
+      - name: post_prop42
+        description: ""
+
+      - name: post_prop43
+        description: ""
+
+      - name: post_prop44
+        description: ""
+
+      - name: post_prop45
+        description: ""
+
+      - name: post_prop46
+        description: ""
+
+      - name: post_prop47
+        description: ""
+
+      - name: post_prop48
+        description: ""
+
+      - name: post_prop49
+        description: ""
+
+      - name: post_prop50
+        description: ""
+
+      - name: post_prop51
+        description: ""
+
+      - name: post_prop52
+        description: ""
+
+      - name: post_prop53
+        description: ""
+
+      - name: post_prop54
+        description: ""
+
+      - name: post_prop55
+        description: ""
+
+      - name: post_prop56
+        description: ""
+
+      - name: post_prop57
+        description: ""
+
+      - name: post_prop58
+        description: ""
+
+      - name: post_prop59
+        description: ""
+
+      - name: post_prop60
+        description: ""
+
+      - name: post_prop61
+        description: ""
+
+      - name: post_prop62
+        description: ""
+
+      - name: post_prop63
+        description: ""
+
+      - name: post_prop64
+        description: ""
+
+      - name: post_prop65
+        description: ""
+
+      - name: post_prop66
+        description: ""
+
+      - name: post_prop67
+        description: ""
+
+      - name: post_prop68
+        description: ""
+
+      - name: post_prop69
+        description: ""
+
+      - name: post_prop70
+        description: ""
+
+      - name: post_prop71
+        description: ""
+
+      - name: post_prop72
+        description: ""
+
+      - name: post_prop73
+        description: ""
+
+      - name: post_prop74
+        description: ""
+
+      - name: post_prop75
+        description: ""
+
+      - name: post_purchaseid
+        description: ""
+
+      - name: post_referrer
+        description: ""
+
+      - name: post_search_engine
+        description: ""
+
+      - name: post_visid_high
+        description: ""
+
+      - name: post_visid_low
+        description: ""
+
+      - name: post_visid_type
+        description: ""
+
+      - name: ref_type
+        description: ""
+
+      - name: referrer
+        description: ""
+
+      - name: resolution
+        description: ""
+
+      - name: s_resolution
+        description: ""
+
+      - name: visit_num
+        description: ""
+
+      - name: visit_page_num
+        description: ""
+
+      - name: visit_referrer
+        description: ""
+
+      - name: visit_start_page_url
+        description: ""
+
+      - name: visit_start_pagename
+        description: ""
+
+      - name: visit_start_time_gmt
+        description: ""
+
+      - name: cust_visid
+        description: ""
+
+
+  - name: stg_webtracking__datafeeds_mobile_attributes
+    description: '{{ doc("mobile_attributes") }}'
+    columns:
+     - name: mobile_id
+      data_tests: 
+        - unique
+        - not_null
+     - name: mobile_device_name

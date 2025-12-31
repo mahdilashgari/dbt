@@ -1,0 +1,33 @@
+version: 2
+
+models:
+  - name: f_user_activity
+    columns:
+      - name: activity_id
+       data_tests:
+          - unique
+          - not_null
+      - name: activity_content_type_id
+       data_tests:
+          - not_null
+          - relationships:
+              to: ref('lu_activity_content_type')
+              field: activity_content_type_id
+      - name: activity_visit_type_id
+       data_tests:
+          - not_null
+          - relationships:
+              to: ref('lu_activity_visit_type')
+              field: activity_visit_type_id
+      - name: tracking_platform_id
+       data_tests:
+          - not_null
+          - relationships:
+              to: ref('lu_tracking_platform')
+              field: tracking_platform_id
+      - name: visit_traffic_source_id
+       data_tests:
+          - not_null
+          - relationships:
+              to: ref('lu_visit_traffic_source')
+              field: visit_traffic_source_id
