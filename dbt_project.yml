@@ -1,0 +1,438 @@
+# Name your project! Project names should contain only lowercase characters
+# and underscores. A good package name should reflect your organization's
+# name or the intended use of these models
+name: 'new_work_se_analytics'
+version: '1.0.0'
+config-version: 2
+
+# This setting configures which "profile" dbt uses for this project.
+profile: 'default'
+
+# These configurations specify where dbt should look for different types of files.
+# The `source-paths` config, for example, states that models in this project can be
+# found in the "models/" directory. You probably won't need to change these!
+model-paths: ["models"]
+analysis-paths: ["analysis"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"  # directory which will store compiled SQL files
+clean-targets:         # directories to be removed by `dbt clean`
+  - "target"
+  - "dbt_packages"
+
+flags:
+  send_anonymous_usage_stats: False
+
+vars:
+  new_work_se_analytics:
+  # use {{ var("var_name") }} to access
+    max_date: "9999-12-31 23:59:59"
+  "dbt_date:time_zone": "Europe/Berlin"
+
+# For metadata storage + gdpr + production promotion
+on-run-end:
+  - "{{ apply_source_meta_as_tags(results) }}"
+  - "{% if target.name == 'prod' %}{{ apply_model_meta_as_tags(results) }}{% endif %}"
+  - "{{ update_production_status(results) }}"
+
+
+
+# Configuring models
+# Full documentation: https://docs.getdbt.com/docs/configuring-models
+
+models:
+  new_work_se_analytics:
+    +persist_docs:
+        relation: true
+        columns: true
+
+    analytics:
+      +materialized: table
+      +database: analytics
+      +group: bi__reporting_monitoring
+      +meta:
+        production_status: non_live
+
+      jobs:
+        +snowflake_warehouse: "XING_DBT_WH_XSMALL"
+        +schema: jobs
+      
+      xing_network:
+        +schema: xing_network
+
+      sales:
+        +schema: sales
+
+    intermediate:
+      +materialized: table
+      +database: intermediate
+      +group: bi__reporting_monitoring
+      +meta:
+        production_status: non_live
+
+      jobs:
+        +schema: jobs
+
+      xing_network:
+        +schema: xing_network
+
+    landing_zone:
+      +database: landing_zone
+      +materialized: table
+
+    reporting:
+      +materialized: view
+      +database: reporting
+      +group: bi__reporting_monitoring
+      +meta:
+        production_status: non_live
+
+      jobs:
+        +schema: jobs
+
+      sales:
+        +schema: sales
+
+      xing_network:
+        +schema: xing_network
+
+    staging:
+      +materialized: view
+      +database: staging
+      +group: bi__reporting_monitoring
+      +meta:
+        production_status: non_live
+
+      applicant_tracking_system:
+        +schema: applicant_tracking_system
+      
+      b2c_network:
+        +schema: b2c_network
+
+      core:
+        +schema: core
+
+      customer_relationship:
+        +schema: customer_relationship
+
+      finance:
+        +schema: finance
+
+      jobs:
+        +schema: jobs
+
+      marketing:
+        +schema: marketing
+
+      payment:
+        +schema: payment
+
+      product_human_resource_solution:
+        +schema: product_human_resource_solution
+
+      product_marketing_solution:
+        +schema: product_marketing_solution
+
+      static:
+        +schema: static
+        +materialized: table
+
+      tech:
+        +schema: tech
+
+      user:
+        +schema: user
+
+      user_inferred_attributes:
+        +schema: user_inferred_attributes
+
+      user_tracking:
+        +schema: user_tracking
+
+      product_usage:
+        +schema: product_usage 
+
+      audience_network:
+        +schema: audience_network
+
+  # LEGACY STRUCTURE - To be removed.
+    _internal:
+      +snowflake_warehouse: "BI_DBT_WH_XSMALL"
+      +materialized: view
+      +database: internal
+      governance:
+        +schema: governance
+
+    _raw:
+      +meta:
+        production_status: non_live
+      +materialized: table
+      #+database: '{{- "raw_test" if target.name != "prod" else "raw" -}}'
+      +database: raw
+   
+    export:
+      +snowflake_warehouse: "BI_DBT_WH_XSMALL"
+      +materialized: view
+      +database: export
+      __segment_reverse_etl:
+        +schema: __segment_reverse_etl
+      adobe:
+        +schema: adobe
+      anzeigendaten:
+        +schema: anzeigendaten  
+
+    ats:
+      +snowflake_warehouse: "XING_DBT_WH_XSMALL"
+      +tags: ats_mart
+      +schema: int_ats # in case somebody uses the wrong directory, models must be placed in subdirectories
+      mart:
+        +schema: mart_ats
+        +materialized: table
+      reporting:
+        +schema: rep_ats
+        +materialized: view
+      int:
+        +schema: int_ats
+        +materialized: table
+        +tags: []
+
+    ats_reporting:
+      +snowflake_warehouse: "ATS_DBT_WH_XSMALL"
+      +database: ats_reporting
+      +materialized: table
+      +schema: analytics
+      +tags: [ats_reporting]
+
+    # Applies to all files under models/central/
+    central:
+      +database: analytics # this value needs to be provided to override the default and ensure lower case as it may affect macros logic
+      +snowflake_warehouse:  '{{- target.warehouse if target.name != "prod" else "BI_DBT_WH_XSMALL" -}}'
+      +schema: central
+      materialized: table
+      +group: bi__reporting_monitoring
+      +meta:
+        production_status: non_live
+
+      _staging:
+        +schema: central_staging
+        materialized: view
+        datafeeds:
+          +tags: central_activity_model
+      _intermediate:
+        +schema: central_staging
+        materialized: table
+
+      advertising:
+        +tags: central_advertising_model
+        +snowflake_warehouse: "BI_DBT_WH_LARGE"
+
+      finance:
+        +schema: finance
+        +tags: central_finance_models
+
+      human_resources:
+        +schema: human_resources
+        +tags: central_human_resources_models
+
+      xing_user:
+        +tags: user_model
+
+    # Applies to all files under models/onlyfy/
+    onlyfy:
+      +schema: onlyfy
+      +tags: "onlyfy"
+      +snowflake_warehouse: "ONLYFY_DBT_WH_SMALL"
+      _staging:
+        +schema: onlyfy_staging
+        materialized: view
+      _intermediate:
+        +schema: onlyfy_staging
+        materialized: table
+      materialized: table
+      reporting:
+        +tags: "reporting"
+      scoring:
+        healthscore:
+          +tags: ['exclude_from_daily']
+          +materialized: table
+        
+      #data_marts:
+      #  one:
+      #    int:
+      #      +schema: onlyfy_staging
+      #      materialized: view
+      #  product_usage:
+      #    int:
+      #      +schema: onlyfy_staging
+      #      materialized: view
+      #  salesforce:
+      #    +tags: "salesforce"
+      #    int:
+      #      +schema: onlyfy_staging
+      #      materialized: view
+      #    _driver_trees:
+      #      int:
+      #        +schema: onlyfy_staging
+      #        materialized: view
+      #    _funnel:
+      #      int:
+      #        +schema: onlyfy_staging
+      #        materialized: view
+
+    sales:
+      +snowflake_warehouse: "XING_DBT_WH_XSMALL"
+      +tags: sales_mart
+      +schema: stg_sales # in case somebody uses the wrong directory, models must be placed in subdirectories
+      mart:
+        +schema: mart_sales
+        +materialized: table
+#      staging:
+#        +schema: stg_sales
+#        +materialized: table
+      int:
+        +schema: stg_sales
+        +materialized: table
+        +tags: []
+      delivery:
+        +schema: export
+        +materialized: table
+        +tags: []
+
+    sales_kununu:
+      +snowflake_warehouse: "XING_DBT_WH_XSMALL"
+      +tags: sales_mart
+      +schema: stg_sales # in case somebody uses the wrong directory, models must be placed in subdirectories
+      mart:
+        +schema: mart_sales
+        +materialized: table
+#      staging:
+#        +schema: stg_sales
+#        +materialized: table
+      int:
+        +schema: stg_sales
+        +materialized: table
+        +tags: []
+
+    # Applies to all files under models/xing/
+    xing:
+      +snowflake_warehouse: "XING_DBT_WH_XSMALL"
+      +schema: xing
+      materialized: table
+      _staging:
+        +schema: xing_staging
+        materialized: view
+      _intermediate:
+        +schema: xing_staging
+        materialized: table
+
+    # Applies to all files under models/xms/
+    xms:
+      +snowflake_warehouse: "XMS_DBT_WH_XSMALL"
+      +schema: xms
+      materialized: table
+      _staging:
+        +schema: xms_staging
+        materialized: view
+      _intermidiate:
+        +schema: xms_staging
+        materialized: table
+
+seeds:
+  #+snowflake_warehouse: "BI_DBT_WH_XSMALL"
+  new_work_se_analytics:
+    +persist_docs:
+        relation: true
+        columns: true
+    # Applies to all files under seeds/staging/
+    staging:
+      +database: staging
+      +group: bi__reporting_monitoring
+      core:
+        +schema: core
+        +tags: central_core_dimension_models
+      jobs:
+        +schema: jobs
+        +tags: ["jobs__data_mart_dimension", "jobs__daily"]
+      user_tracking:
+        +schema: user_tracking
+      user:
+        +schema: user
+
+
+    # Applies to all files under seeds/central/
+    central:
+      +snowflake_warehouse: "BI_DBT_WH_XSMALL"
+      +schema: central
+      +group: bi__reporting_monitoring
+      +meta:
+        production_status: live
+
+      _staging:
+        +snowflake_warehouse: "BI_DBT_WH_XSMALL"
+        +schema: central_staging
+        datafeeds:
+          +tags: central_activity_model
+      core:
+        +tags: central_core_dimension_models
+
+    # Applies to all files under seeds/onlyfy/
+    onlyfy:
+      +snowflake_warehouse: "ONLYFY_DBT_WH_XSMALL"
+      +schema: onlyfy
+      +tags: "onlyfy"
+
+      salesforce:
+        +tags: "salesforce"
+
+      _staging:
+        +schema: onlyfy_staging
+
+    # Applies to all files under seeds/xing/
+    xing:
+      +snowflake_warehouse: "XING_DBT_WH_XSMALL"
+      +schema: xing
+      _staging:
+        +schema: xing_staging
+
+    # Applies to all files under seeds/xms/
+    xms:
+      +snowflake_warehouse: "XMS_DBT_WH_XSMALL"
+      +schema: xms
+      _staging:
+        +schema: xms_staging
+
+    # Applies to all files under seeds/sales/
+    sales:
+      +snowflake_warehouse: "ONLYFY_DBT_WH_XSMALL"
+      +schema: stg_sales
+      +tags: "mart_sales"
+
+snapshots:
+  transient: false
+  # adjusted to fix dbt warning
+  # please restore if needed, but correct the warning
+  #config:
+  #  meta:
+  #    key_cols: ['placeholder']
+  new_work_se_analytics:
+    _raw:
+      # due to a current bug, these defaults have to be specified https://github.com/dbt-labs/dbt-core/issues/4000
+      #+updated_at: "9999-12-31"
+      #+target_database: '{{- "snapshots_test" if target.name != "prod" else "snapshots" -}}'
+      +target_database: snapshots
+      #+database: '{{- "snapshots_test" if target.name != "prod" else "snapshots" -}}'
+      +database: snapshots
+      +target_schema: 'snapshots' # this value needs to be provided but it will not be used by dbt
+      +schema: snapshots # this value is optional but will be used by dbt
+dispatch:
+  - macro_namespace: dbt
+    search_order:
+      - Analytics
+      - dbt_snowflake_monitoring
+      - dbt
+query-comment:
+  comment: '{{ dbt_snowflake_monitoring.get_query_comment(node) }}'
+  append: true # Snowflake removes prefixed comments.
