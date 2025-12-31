@@ -1,0 +1,41 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Update dbt and Dependencies",
+            "type": "shell",
+            "command": "${workspaceFolder}/dbt-env/bin/pip install --upgrade pip wheel setuptools dbt-core dbt-snowflake sqlfluff-templater-dbt",
+            "runOptions": {
+                "runOn": "folderOpen"
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false,
+                "close": true
+            }
+        },
+        {
+            "label": "Update Manifest",
+            "type": "shell",
+            "command": "${workspaceFolder}/dbt-env/bin/python ${workspaceFolder}/update_manifest.py",
+            "runOptions": {
+                "runOn": "folderOpen"
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false,
+                "close": true
+            }
+        }
+    ]
+    }

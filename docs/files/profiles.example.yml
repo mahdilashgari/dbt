@@ -1,0 +1,19 @@
+default:
+    target: dev
+    outputs:
+        dev:
+            type: snowflake
+            account: nwse-dwh
+            user: NAME.SURNAME@NEW-WORK.SE❗
+            role: YOUR_BU_ROLE❗
+            authenticator: externalbrowser
+            database: analytics
+            warehouse: YOUR_BU_WAREHOUSE_NAME❗
+            schema: TEST_NAME_SURNAME❗
+            threads: 4
+            client_session_keep_alive: False
+            connect_retries: 0
+            connect_timeout: 10
+            retry_on_database_errors: False
+            retry_all: False
+            reuse_connections: False

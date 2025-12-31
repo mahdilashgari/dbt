@@ -1,0 +1,17 @@
+{
+    "files.associations": {
+       "*.sql": "jinja-sql",
+       "*.md": "markdown",
+       "*.yaml": "jinja-yaml",
+       "*.yml": "jinja-yaml"
+    },
+    "python.defaultInterpreterPath": "${workspaceFolder}/dbt-env/bin/python",
+    "sqlfluff.config": "${workspaceFolder}/.sqlfluff",
+    "sqlfluff.executablePath": "${workspaceFolder}/dbt-env/bin/sqlfluff",
+    "sqlfluff.linter.run": "onSave",
+    "sqlfluff.experimental.format.executeInTerminal": true,
+    "sqlfluff.format.enabled": true,
+    "editor.formatOnSave": false,
+    "dbt.queryLimit": 500,
+    "dbt.dbtPythonPathOverride": "${workspaceFolder}/dbt-env/bin/python"
+ }
