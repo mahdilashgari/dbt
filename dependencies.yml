@@ -1,0 +1,17 @@
+packages:
+  - package: dbt-labs/codegen
+    version: [">=0.13.0", "<0.14.0"]
+  - package: dbt-labs/dbt_utils
+    version: [">=1.0.0", "<2.0.0"]
+  - package: godatadriven/dbt_date
+    version: [">=0.11.0", "<0.15.0"]
+  - package: Snowflake-Labs/dbt_constraints #performance issues starting from 1.0.0, issue raised https://github.com/Snowflake-Labs/dbt_constraints/issues/79
+    version: [">=0.6.0", "<1.0.0"]
+  - package: metaplane/dbt_expectations
+    version: [">=0.10.0", "<0.11.0"]
+  - package: dbt-labs/audit_helper
+    version: [">=0.9.0", "<1.0.0"]
+  - package: get-select/dbt_snowflake_monitoring
+    version: [">=5.4.0", "<6.0.0"]
+  - package: get-select/dbt_snowflake_query_tags
+    version: [">=2.5.0", "<3.0.0"]
