@@ -1,0 +1,23 @@
+# settings to require PR review by owners of models
+
+# BI data modelling team folders
+/models/staging/ @new-work/bi-data-modelling 
+/models/central/ @new-work/bi-data-modelling
+/seeds/central/ @new-work/bi-data-modelling
+/seeds/staging/ @new-work/bi-data-modelling
+/tests/central/ @new-work/bi-data-modelling
+
+# BI data engineering team folders
+/models/_raw/ @new-work/bi-data-engineering-1
+/models/_internal/ @new-work/bi-data-engineering-1
+/models/export/ @new-work/bi-data-engineering-1
+/snapshots/_raw/ @new-work/bi-data-engineering-1
+/tests/generic/ @new-work/bi-data-engineering-1
+
+# config files in the root folder
+/* @new-work/bi-team-member
+/.github/ @new-work/bi-team-member
+
+# macros
+/macros/ @new-work/bi-team-member
+/macros/analytics/ #allow all

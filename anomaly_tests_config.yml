@@ -1,0 +1,13 @@
+anomaly_tests:
+  - model: "stg_user_tracking__job_posting_events"
+    date_column: "created_at_utc"
+    event_columns: "event_name, login_status, job_apply_type, application_platform"
+    z_threshold: 2
+    filters:
+      event_name: "intended"
+      login_status: "Logged In"
+      job_apply_type: "Instant Apply"
+      application_platform: "Android"
+    data_window_days: 120
+    lookback_days: 3
+  
