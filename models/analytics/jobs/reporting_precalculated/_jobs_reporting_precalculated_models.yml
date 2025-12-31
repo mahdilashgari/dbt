@@ -1,0 +1,6 @@
+version: 2
+models:
+  - name: fct_jobs__expired_jobs_performance
+    config:
+      tags:
+        - no_pii

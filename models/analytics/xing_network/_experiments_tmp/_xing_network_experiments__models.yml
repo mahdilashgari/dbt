@@ -1,0 +1,64 @@
+version: 2
+
+models:
+  - name: fct_xing_network__experiments_visits_categorized_by_conversion
+    description: xing visits categorized by conversions
+    config:
+      tags:
+        - pii
+    columns:
+      - name: experiment_conversion_sk
+        description: unique identifier
+        tests:
+          - not_null
+          - unique        
+      - name: analytics_process
+        description: info about the analytics process
+      - name: The visit id      
+      - name: The visitor id
+      - name: xing_user_id
+        description: The xing user id
+        config:
+          meta:
+            pii_id: xing_account        
+      - name: geo_region
+      - name: date_id
+      - name: application_name
+      - name: adobe_segment_name
+        description: The type of conversion how the visit was categorized
+      - name: page_views
+      - name: page_views_li
+      - name: activity_id_counts
+    meta:
+      owner: 'Mario Casarano'
+
+  - name: fct_xing_network__experiments_visits_categorized_by_traffic
+    description: xing visits categorized by traffic
+    config:
+      tags:
+        - pii
+    columns:
+      - name: experiment_traffic_sk
+        description: unique identifier
+        tests:
+          - not_null
+          - unique        
+      - name: analytics_process
+        description: info about the analytics process
+      - name: The visit id      
+      - name: The visitor id
+      - name: xing_user_id
+        description: The xing user id
+        config:
+          meta:
+            pii_id: xing_account        
+      - name: geo_region
+      - name: date_id
+      - name: application_name
+      - name: adobe_segment_name
+        description: The type of traffic how the visit was categorized
+      - name: page_views
+      - name: page_views_li
+      - name: activity_id_counts
+    meta:
+      owner: 'Mario Casarano'

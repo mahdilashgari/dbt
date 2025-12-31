@@ -1,0 +1,57 @@
+version: 2
+
+models:
+
+  - name: rpt_sales__driver_trees
+    description: 'Sales Data Mart: Reporting model for Driver Trees dashboard. For each customer/month/product it shows Driver Trees KPIs for different measures.'
+    config:
+      tags:
+        - no_pii
+    data_tests:
+      - unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - reporting_month_start_date
+              - customer_id
+              - product_name
+              - kpi_measure
+              - kpi_name
+    columns:
+      - name: reporting_month_start_date
+        description: 'Month that the KPI refers to i.e. when the Driver Trees event occured '
+        data_tests:
+          - not_null
+      - name: customer_id
+        description: 'Account ID the Driver Trees KPI refers to.'
+        data_tests:
+          - not_null
+      - name: customer_name
+        description: 'Name in Salesforce for the relevant customer.'
+        data_tests:
+          - not_null
+      - name: application_name
+        description: 'Application that the KPI refers to.'
+      - name: product_name
+        description: 'Product that the KPI refers to.'
+        data_tests:
+          - not_null
+      - name: kpi_measure
+        description: 'The property that is being measured e.g. Customers, ACV etc.'
+        data_tests:
+          - not_null
+      - name: kpi_category
+        description: 'The category of the KPI. This is defined as a BOP, EOP, Gross Adds, Gross Losses, Retained, Active-in-month and Free-to-End contracts.'
+        data_tests:
+          - not_null
+      - name: kpi_name
+        description: 'More detailed breakdown of the KPI Category. For example a Gross Loss could have the kpi_name = Customer Churn, Product Quit etc.'
+        data_tests:
+          - not_null
+      - name: kpi_value
+        description: 'The value of the KPI being measured.'
+        data_tests:
+          - not_null
+      - name: kpi_category_table_order
+        description: 'Artifical number used to order the columns in Tableau.'
+        data_tests:
+          - not_null

@@ -1,0 +1,145 @@
+version: 2
+
+models:
+  - name: dim_xing_network__visits
+    description: Based on staging table containing all relevant tracking events. This model creates a visit-level aggregation
+    columns:
+      - name: visit_and_platform_id
+        description: Id of visit, primary key
+        data_tests:
+          - unique
+          - not_null
+      - name: xing_user_id
+        config:
+          meta:
+            pii_id: xing_account
+    config:
+      tags:
+        - pii
+
+  - name: fct_xing_network__contact_requests_created
+    description: contact request created related metrics aggregated over user_id.
+    columns:
+      - name: user_and_date_id
+        description: This is a created metric with concat on user_id and date for dbt tests
+        tests:
+          - not_null
+          - unique
+      - name: date_id
+        description: The date of contact request created based on event_at_utc converted to Europe/Berlin
+      - name: xing_user_id
+        description: The xing user id from the requesting user
+        config:
+          meta:
+            pii_id: xing_account        
+      - name: contact_requests_created
+        description: The number of contact request created based on the distinct count of contact_request_created_sk
+    config:
+      tags:
+        - pii
+    meta:
+      owner: 'Mario Casarano'
+
+  - name: fct_xing_network__contact_requests_accepted
+    description: contact request accepted related metrics aggregated over user_id.
+    columns:
+      - name: user_and_date_id
+        description: This is a created metric with concat on user_id and date for dbt tests
+        tests:
+          - not_null
+          - unique
+      - name: date_id
+        description: The date of contact request accepted based on event_at_utc converted to Europe/Berlin
+      - name: xing_user_id
+        description: The xing user id from the contact request accepting user
+        config:
+          meta:
+            pii_id: xing_account        
+      - name: contact_requests_accepted
+        description: The number of contact request accepted based on the distinct count of contact_request_accepted_sk
+    config:
+      tags:
+        - pii
+    meta:
+      owner: 'Mario Casarano'
+
+  - name: fct_xing_network__contact_requests_declined
+    description: contact request declined related metrics aggregated over user_id.
+    columns:
+      - name: user_and_date_id
+        description: This is a created metric with concat on user_id and date for dbt tests
+        tests:
+          - not_null
+          - unique
+      - name: date_id
+        description: The date of contact request declined based on dbt_updated_at_utc converted to Europe/Berlin
+      - name: xing_user_id
+        description: The xing user id from the contacted xing user
+        config:
+          meta:
+            pii_id: xing_account        
+      - name: contact_requests_declined
+        description: The number of contact request declined based on the distinct count of contact_requests_declined_sk
+    config:
+      tags:
+        - pii
+    meta:
+      owner: 'Mario Casarano'
+
+  - name: fct_xing_network__contact_number_of_contacts
+    description: number of contacts aggregated over user_id.
+    columns:
+      - name: last_contact_event_date
+        description: The date of the last contact
+      - name: xing_user_id
+        description: The xing user id from the contacted user
+        tests:
+          - not_null
+          - unique        
+        config:
+          meta:
+            pii_id: xing_account        
+      - name: contact_number_of_contacts
+        description: The number of contacts
+    meta:
+      owner: 'Mario Casarano'
+
+  - name: fct_xing_network__profile_visits
+    description: profile visits related metrics aggregated over user_id. Incremental model
+    columns:
+      - name: user_and_date_id
+        description: This is a created metric with concat on user_id and date for dbt tests
+        config:
+          meta:
+            pii_privacy_category: identifier        
+        tests:
+          - not_null
+          - unique
+      - name: date_id
+        description: The date of profile visit based on event_at_utc converted to Europe/Berlin
+      - name: xing_user_id
+        description: The xing user id from the visited user
+        config:
+          meta:
+            pii_id: xing_account        
+      - name: profile_visits
+        description: The number of profile visits
+      - name: profile_visits_web
+        description: The number of profile visits via web
+      - name: profile_visits_ios
+        description: The number of profile visits via ios app
+      - name: profile_visits_android
+        description: The number of profile visits via android app
+      - name: profile_visits_by_recruiter
+        description: The number of profile visits by recruiters
+      - name: profile_visits_by_recruiter_web
+        description: The number of profile visits by recruiters via web
+      - name: profile_visits_by_recruiter_ios
+        description: The number of profile visits by recruiters via ios app
+      - name: profile_visits_by_recruiter_android
+        description: The number of profile visits by recruiters via android app                 
+    meta:
+      owner: 'Mario Casarano'
+    config:
+      tags:
+        - pii      

@@ -1,0 +1,709 @@
+version: 2
+models:
+  - name: fct_jobs__tableau_postings_on_company_profiles
+    config:
+      tags:
+        - no_pii
+  - name: dim_jobs__industries
+    description: Mart table for the industries.
+    columns:
+      - name: industry_id
+        description: '{{ doc("mart_jobs__column_industry_id_docs") }}'
+      - name: industry_name
+        description: '{{ doc("mart_jobs__column_industry_name_docs") }}'
+      - name: industry_name_de
+        description: '{{ doc("mart_jobs__column_industry_name_de_docs") }}'
+      - name: industry_group_id
+        description: '{{ doc("mart_jobs__column_industry_group_id_docs") }}'
+      - name: industry_group
+        description: '{{ doc("mart_jobs__column_industry_group_docs") }}'
+      - name: industry_group_de
+        description: '{{ doc("mart_jobs__column_industry_group_de_docs") }}'
+      - name: industry_account_wording
+        description: '{{ doc("mart_jobs__column_industry_account_wording_docs") }}'
+  - name: dim_jobs__orders
+    description: Intermediate table with postings' orders information.
+    config:
+      tags:
+        - no_pii
+    columns:
+      - name: order_id
+        description: '{{ doc("mart_jobs__column_order_id_docs") }}'
+        data_tests:
+          - unique
+          - not_null
+      - name: contract_list
+        description: '{{ doc("mart_jobs__column_order_contract_list_docs") }}'
+      - name: amount
+        description: '{{ doc("mart_jobs__column_order_amount_docs") }}'
+      - name: service_offering_group
+        description: '{{ doc("mart_jobs__column_order_service_offering_group_docs") }}'
+      - name: duration
+        description: '{{ doc("mart_jobs__column_order_duration_docs") }}'
+      - name: created_at_utc
+        description: '{{ doc("mart_jobs__column_order_created_at_utc_docs") }}'
+      - name: contingent_used
+        description: '{{ doc("mart_jobs__column_order_contingent_used_docs") }}'
+      - name: paid_type
+        description: '{{ doc("mart_jobs__column_paid_type_docs") }}'
+      - name: product_type
+        description: '{{ doc("mart_jobs__column_order_product_type_docs") }}'
+      - name: organization_id
+        description: '{{ doc("mart_jobs__column_organization_id_docs") }}'
+      - name: organization_name
+        description: '{{ doc("mart_jobs__column_organization_name_docs") }}'
+      - name: organization_client_id
+        description: '{{ doc("mart_jobs__column_organization_client_id_docs") }}'
+      - name: organization_is_online_client
+        description: '{{ doc("mart_jobs__column_organization_is_online_client_docs") }}'
+      - name: is_billing_strategy_online
+        description: '{{ doc("mart_jobs__column_order_is_billing_strategy_online_docs") }}'
+      - name: is_pay_per_click
+        description: '{{ doc("mart_jobs__column_order_is_pay_per_click_docs") }}'
+      - name: is_paid
+        description: '{{ doc("mart_jobs__column_order_is_paid_docs") }}'
+      - name: is_online_sales_type
+        description: '{{ doc("mart_jobs__column_order_is_online_sales_type_docs") }}'
+      - name: business_model
+        description: '{{ doc("mart_jobs__column_order_business_model_docs") }}'
+      - name: contract_start_date
+        description: '{{ doc("mart_jobs__column_order_contract_start_date_docs") }}'
+      - name: contract_end_date
+        description: '{{ doc("mart_jobs__column_order_contract_end_date_docs") }}'
+      - name: is_third_party_jobs_partner
+        description: '{{ doc("mart_jobs__column_order_is_third_party_jobs_partner_docs") }}'
+      - name: updated_at_utc
+        description: "Timestamp when the record was last updated in dbt."
+
+  - name: dim_jobs__organizations
+    description: Mart table for the organizations.
+    config:
+      tags:
+        - no_pii
+    columns:
+      - name: organization_id
+        description: '{{ doc("mart_jobs__column_organization_id_docs") }}'
+      - name: organization_name
+        description: '{{ doc("mart_jobs__column_organization_name_docs") }}'
+      - name: created_at_utc
+        description: "Timestamp when the organization was created."
+      - name: salesforce_id
+        description: '{{ doc("mart_jobs__column_organization_salesforce_id_docs") }}'
+      - name: client_id
+        description: '{{ doc("mart_jobs__column_organization_client_id_docs") }}'
+      - name: is_b2b_online_client
+        description: '{{ doc("mart_jobs__column_organization_is_online_client_docs") }}'
+
+  - name: dim_jobs__postings
+    config:
+      tags:
+        - pii
+    description: Intermediate table with job postng information and B2B properties.
+    columns:
+      - name: posting_id
+        description: '{{ doc("mart_jobs__column_posting_id_docs") }}'
+        data_tests:
+          - unique
+          - not_null
+      - name: created_at_utc
+        description: "Timestamp of the creation of the job posting."
+      - name: expired_at_utc
+        description: "Timestamp of the expiration of the job posting."
+      - name: activated_at_utc
+        description: "The date when the job posting was activated."
+      - name: deactivated_at_utc
+        description: "Indicates the date when the job posting was deactivated."
+      - name: job_code_from_editor
+        description: "Job_Code for Identification of the Job, set from the editor."
+      - name: is_created_by_jobware
+        description: "True if posting is created by Jobware with the editor_id 13521795, False otherwise. This field works only for older job postings and new implementation will follow at some point."
+      - name: running_time_days
+        description: "The numbers of days a job posting has been / is active. Calculation based on days_between ACTIVE_UNTIL and ACTIVATED_AT for postings with the status archived/ deactivated/ deleted; Calculation based on days_between current date and ACTIVATED_AT  for postings that are active/ created."
+      - name: is_published_to_company_profile
+        description: "Flag showing whether the job posting is published to profile of the company or not."
+      - name: posting_url
+        description: "The job posting URL. Source: CONCAT('https://www.xing.com/jobs/', SEO_NAME,'-',job_posting_id)"
+      - name: order_id
+        description: '{{ doc("mart_jobs__column_order_id_docs") }}'
+      - name: order_contract_list
+        description: '{{ doc("mart_jobs__column_order_contract_list_docs") }}'
+      - name: order_amount
+        description: '{{ doc("mart_jobs__column_order_amount_docs") }}'
+      - name: service_offering_group
+        description: '{{ doc("mart_jobs__column_order_service_offering_group_docs") }}'
+      - name: order_duration
+        description: '{{ doc("mart_jobs__column_order_duration_docs") }}'
+      - name: order_created_at_utc
+        description: '{{ doc("mart_jobs__column_order_created_at_utc_docs") }}'
+      - name: order_is_pay_per_click
+        description: '{{ doc("mart_jobs__column_order_is_pay_per_click_docs") }}'
+      - name: visibility_flag
+        description: '{{ doc("mart_jobs__column_visibility_flag_docs") }}'
+      - name: first_visible_date
+        description: "First day when the posting was visible on the platform according to VISIBLE_POSTINGS_DAILY."
+      - name: last_visible_date
+        description: "Last day when the posting was visible on the platform according to VISIBLE_POSTINGS_DAILY."
+      - name: total_visible_days
+        description: "Number of days that the posting has been visible on the platform according to VISIBLE_POSTINGS_DAILY."
+      - name: salary_range_start
+        description: '{{ doc("mart_jobs__column_salary_range_start_docs") }}'
+      - name: salary_range_end
+        description: '{{ doc("mart_jobs__column_salary_range_end_docs") }}'
+      - name: salary_range_median
+        description: '{{ doc("mart_jobs__column_salary_range_median_docs") }}'
+      - name: fixed_salary
+        description: '{{ doc("mart_jobs__column_salary_fixed_docs") }}'
+      - name: salary_type
+        description: '{{ doc("mart_jobs__column_salary_type_docs") }}'
+      - name: salary_currency
+        description: '{{ doc("mart_jobs__column_salary_currency_docs") }}'
+      - name: discipline_id
+        description: "Unique identifier for the job discipline."
+          # data_tests:
+          #   - not_null
+          #   - relationships:
+          #       to: ref('central_dim_xing_user_job_disciplines')
+          #       field: job_discipline_id
+      - name: discipline_name_de
+        description: "The discipline name (in German)."
+      - name: discipline_name_en
+        description: "The discipline name (in English)."
+      - name: role_id
+        description: '{{ doc("mart_jobs__role_id_docs") }}'
+      - name: role_name_en
+        description: '{{ doc("mart_jobs__role_name_en_docs") }}'
+      - name: role_name_de
+        description: '{{ doc("mart_jobs__role_name_de_docs") }}'
+      - name: role_reference_position
+        description: '{{ doc("mart_jobs__role_reference_position_docs") }}'
+      - name: organization_id
+        description: '{{ doc("mart_jobs__column_organization_id_docs") }}'
+      - name: is_b2b_online_client
+        description: '{{ doc("mart_jobs__column_organization_is_online_client_docs") }}'
+      - name: is_paid_high_revenue
+        description: "True if the posting is paid high revenue, False otherwise."
+      - name: status_name
+        description: "Hard-coded name of the status. For ex. created, active, archived, deleted, deactivated."
+      - name: delivery_name
+        description: "The delivery name of the job posting, for ex. Crawled, Rest API, etc."
+      - name: job_type
+        description: "The job type of a job posting, for ex. full time, part time, intern."
+      - name: posting_type
+        description: "The posting type, source is field type, for example: Core, Crawled, DesignUrl."
+      - name: job_skill_list
+        description: "The skills required for a  job posting, for ex. Python, SAP."
+      - name: job_tag_list
+        description: List of tags for a job postings. For example, database or senior sales.
+      - name: company_name
+        description: The name of the company that posted
+      - name: company_id
+        description: The id of the company that posted
+      - name: is_paid
+        description: Flag that indicates if a job posting is paid or not.
+      - name: is_online_sales_type
+        description: Flag to indicate if a posting is of the online sales type.
+      - name: delivery_name
+        description: The delivery name of the job posting, for ex. Crawled, Rest API, etc.
+      - name: paid_type
+        description: '{{ doc("mart_jobs__column_paid_type_docs") }}'
+      - name: product_type
+        description: The name of the job posting product type, hard-coded. For ex. Pro, Ultimate, etc.
+      - name: posting_format
+        description: The name of the job posting format, for ex. HTML Template, iFrame, PDF
+      - name: is_small_screen_ready
+        description: Flag showing whether the job posting is small screen ready or not depending on its format
+      - name: job_title
+        description: The job title of a job posting, for ex. Senior BI Manager
+      - name: country
+        description: ISO country code, made up of two letter (for example, DE for Germany)
+      - name: city
+        description: The name of the city for the job posting.
+      - name: region
+        description: The name of the region for the job posting
+      - name: is_german_state
+          ##description: '{{doc("posting_state") }}'
+      - name: german_state
+          ##description: '{{doc("posting_state") }}'
+      - name: zipcode
+        description: The zipcode(s) for a job posting.
+      - name: industry_id
+        description: '{{ doc("mart_jobs__column_industry_id_docs") }}'
+          # data_tests:
+          #   - not_null
+          #   - relationships:
+          #       to: ref('int_jobs__industries')
+          #       field: industry_id
+      - name: industry_name_en
+        description: '{{ doc("mart_jobs__column_industry_name_docs") }}'
+      - name: industry_name_de
+        description: '{{ doc("mart_jobs__column_industry_name_de_docs") }}'
+      - name: industry_grouped
+        description: '{{ doc("mart_jobs__column_industry_group_docs") }}'
+      - name: industry_account_wording
+        description: '{{ doc("mart_jobs__column_industry_account_wording_docs") }}'
+      - name: organization_client_id
+        description: '{{ doc("mart_jobs__column_organization_client_id_docs") }}'
+      - name: organization_salesforce_account_id
+        description: '{{ doc("mart_jobs__column_organization_salesforce_id_docs") }}'
+      - name: apply_type
+        description: '{{ doc("mart_jobs__column_apply_type_docs") }}'
+      - name: career_level_id
+          #description: '{{doc("user_career_level_de")}}'
+      - name: user_career_level_de
+          #description: '{{doc("user_career_level_de")}}'
+      - name: user_career_level_en
+          #description: '{{doc("user_career_level_en")}}'
+      - name: is_billing_strategy_online
+        description: '{{ doc("mart_jobs__column_order_is_billing_strategy_online_docs") }}'
+      - name: editor_user_id
+        description: '{{ doc("mart_jobs__column_posting_editor_user_id_docs") }}'
+      - name: editor_name
+        description: '{{ doc("mart_jobs__column_posting_editor_name_docs") }}'
+        config:
+          meta:
+            pii_privacy_category: identifier
+      - name: editor_business_email
+        description: '{{ doc("mart_jobs__column_posting_editor_business_email_docs") }}'
+        config:
+          meta:
+            pii_privacy_category: identifier
+      - name: is_onlyfy_one_job_ad_posting
+        description: '{{ doc("mart_jobs__column_posting_is_onlyfy_one_job_ad_posting_docs") }}'
+      - name: contract_start_date
+        description: '{{ doc("mart_jobs__column_order_contract_start_date_docs") }}'
+      - name: contract_end_date
+        description: '{{ doc("mart_jobs__column_order_contract_end_date_docs") }}'
+      - name: allocated_contract_number
+        description: '{{ doc("mart_jobs__column_posting_allocated_contract_number_docs") }}'
+      - name: contract_product_name
+        description: '{{ doc("mart_jobs__column_contract_product_name_docs") }}'
+      - name: has_money_back_guarantee
+        description: '{{ doc("mart_jobs__column_contract_has_money_back_guarantee_docs") }}'
+      - name: is_third_party_jobs_partner
+        description: '{{ doc("mart_jobs__column_posting_is_third_party_jobs_partner_docs") }}'
+      - name: posting_distribution_channel
+        description: "The channel through which the posting was distributed."
+      - name: posting_sales_channel
+        description: '{{ doc("mart_jobs__column_posting_sales_channel_docs") }}'
+      - name: visibility_aspects
+          #description: '{{doc("user_career_level_de")}}'
+      - name: reply_url
+        description: The reply URL of the posting.
+      - name: remote_options
+        description: "The remote options for the job posting, for ex. PARTLY_REMOTE, FULL_REMOTE"
+      - name: posting_description
+        description: The job posting's full description.
+      - name: reply_email
+        description: Email address given by the recruiter to use for the application.
+      - name: consumer_id
+          #description: '{{doc("user_career_level_de")}}'
+      - name: first_visible_week
+          #description: '{{doc("user_career_level_de")}}'
+      - name: first_visible_month
+          #description: '{{doc("user_career_level_de")}}'
+
+  - name: fct_jobs__visible_postings_daily
+    description: Mart table for the visible postings daily.
+    config:
+      tags:
+        - no_pii
+    columns:
+      - name: date_id
+        description: "The date of the visible posting."
+      - name: job_posting_id
+        description: '{{ doc("mart_jobs__column_posting_id_docs") }}'
+
+  - name: fct_jobs__apply_completions
+    config:
+      tags:
+        - pii
+        - pii_update_only
+    description: Apply completions from all kinds of sources (native, web, API, Exasol).
+    columns:
+      - name: apply_completion_id
+        description: '{{ doc("mart_jobs__column_apply_completion_sk_docs") }}'
+        data_tests:
+          - unique
+          - not_null
+      - name: apply_completion_unique_id
+        description: '{{ doc("mart_jobs__column_apply_completion_unique_id_docs") }}'
+      - name: xing_user_id
+        description: '{{ doc("mart_jobs__column_user_id_docs") }}'
+        config:
+          meta:
+            pii_id: xing_account
+      - name: visit_id
+        description: '{{ doc("mart_jobs__column_event_visit_id_docs") }}'
+      - name: posting_id
+        description: '{{ doc("mart_jobs__column_posting_id_docs") }}'
+      - name: activity_platform
+        description: '{{ doc("mart_jobs__column_event_activity_platform_docs") }}'
+      - name: activity_platform_aggregated
+        description: '{{ doc("mart_jobs__column_activity_platform_aggregated_docs") }}'
+      - name: login_status
+        description: '{{ doc("mart_jobs__column_event_login_status_docs") }}'
+      - name: job_apply_type
+        description: '{{ doc("mart_jobs__column_apply_type_docs") }}'
+      - name: country_code
+        description: '{{ doc("mart_jobs__column_country_code_docs") }}'
+      - name: dach_flag
+        description: '{{ doc("mart_jobs__column_dach_flag_docs") }}'
+      - name: traffic_channel
+        description: '{{ doc("mart_jobs__column_traffic_channel_docs") }}'
+      - name: traffic_channel_group
+        description: '{{ doc("mart_jobs__column_traffic_channel_group_docs") }}'
+      - name: traffic_channel_class
+        description: '{{ doc("mart_jobs__column_traffic_channel_class_docs") }}'
+      - name: created_at_utc
+        description: '{{ doc("mart_jobs__column_event_created_at_utc_docs") }}'
+      - name: activity_id
+        description: '{{ doc("mart_jobs__column_event_activity_id_docs") }}'
+      - name: visitor_id
+        description: '{{ doc("mart_jobs__column_event_visitor_id_docs") }}'
+      - name: traffic_source_id
+        description: '{{ doc("mart_jobs__column_event_traffic_source_id_docs") }}'
+      - name: device_type
+        description: '{{ doc("mart_jobs__column_device_type_docs") }}'
+      - name: nwt_dbt_updated_at_utc
+        description: '{{ doc("mart_jobs__column_dbt_updated_at_utc_docs") }}'
+      - name: adobe_dbt_updated_at_utc
+        description: '{{ doc("mart_jobs__column_dbt_updated_at_utc_docs") }}'
+  - name: fct_jobs__apply_intentions
+    config:
+      tags:
+        - pii
+        - pii_update_only
+    description: Apply intentions from all kinds of sources (native, web, API, Exasol).
+    columns:
+      - name: apply_intention_id
+        description: '{{ doc("mart_jobs__column_apply_intention_sk_docs") }}'
+        data_tests:
+          - unique
+          - not_null
+      - name: xing_user_id
+        description: '{{ doc("mart_jobs__column_user_id_docs") }}'
+        config:
+          meta:
+            pii_id: xing_account
+      - name: posting_id
+        description: '{{ doc("mart_jobs__column_posting_id_docs") }}'
+      - name: activity_platform
+        description: '{{ doc("mart_jobs__column_event_activity_platform_docs") }}'
+      - name: activity_platform_aggregated
+        description: '{{ doc("mart_jobs__column_activity_platform_aggregated_docs") }}'
+      - name: login_status
+        description: '{{ doc("mart_jobs__column_event_login_status_docs") }}'
+      - name: job_apply_type
+        description: '{{ doc("mart_jobs__column_apply_type_docs") }}'
+      - name: country_code
+        description: '{{ doc("mart_jobs__column_country_code_docs") }}'
+      - name: dach_flag
+        description: '{{ doc("mart_jobs__column_dach_flag_docs") }}'
+      - name: traffic_channel
+        description: '{{ doc("mart_jobs__column_traffic_channel_docs") }}'
+      - name: traffic_channel_group
+        description: '{{ doc("mart_jobs__column_traffic_channel_group_docs") }}'
+      - name: traffic_channel_class
+        description: '{{ doc("mart_jobs__column_traffic_channel_class_docs") }}'
+      - name: visit_id
+        description: '{{ doc("mart_jobs__column_event_visit_id_docs") }}'
+      - name: activity_id
+        description: '{{ doc("mart_jobs__column_event_activity_id_docs") }}'
+      - name: visitor_id
+        description: '{{ doc("mart_jobs__column_event_visitor_id_docs") }}'
+      - name: traffic_source_id
+        description: '{{ doc("mart_jobs__column_event_traffic_source_id_docs") }}'
+      - name: device_type
+        description: '{{ doc("mart_jobs__column_device_type_docs") }}'
+      - name: created_at_utc
+        description: '{{ doc("mart_jobs__column_event_created_at_utc_docs") }}'
+      - name: nwt_dbt_updated_at_utc
+        description: '{{ doc("mart_jobs__column_dbt_updated_at_utc_docs") }}'
+      - name: adobe_dbt_updated_at_utc
+        description: '{{ doc("mart_jobs__column_dbt_updated_at_utc_docs") }}'
+  - name: fct_jobs__bookmarks
+    config:
+      tags:
+        - pii
+        - pii_update_only
+    description: Bookmarks from all kinds of sources (native, web, Exasol).
+    columns:
+      - name: bookmark_sk
+        description: '{{ doc("mart_jobs__column_bookmark_sk_docs") }}'
+        data_tests:
+          - unique
+          - not_null
+      - name: created_at_utc
+        description: '{{ doc("mart_jobs__column_event_created_at_utc_docs") }}'
+      - name: posting_id
+        description: '{{ doc("mart_jobs__column_posting_id_docs") }}'
+      - name: xing_user_id
+        description: '{{ doc("mart_jobs__column_user_id_docs") }}'
+        config:
+          meta:
+            pii_id: xing_account
+      - name: login_status
+        description: '{{ doc("mart_jobs__column_event_login_status_docs") }}'
+      - name: event_sk
+        description: '{{ doc("mart_jobs__column_apply_completion_sk_docs") }}'
+      - name: page_name
+        description: '{{ doc("mart_jobs__column_event_page_name_docs") }}'
+      - name: notification_type
+        description: '{{ doc("mart_jobs__column_event_notification_type_docs") }}'
+      - name: activity_platform
+        description: '{{ doc("mart_jobs__column_event_activity_platform_docs") }}'
+      - name: visit_id
+        description: '{{ doc("mart_jobs__column_event_visit_id_docs") }}'
+      - name: device_type
+        description: '{{ doc("mart_jobs__column_device_type_docs") }}'
+      - name: activity_id
+        description: '{{ doc("mart_jobs__column_event_activity_id_docs") }}'
+      - name: visitor_id
+        description: '{{ doc("mart_jobs__column_event_visitor_id_docs") }}'
+      - name: country_code
+        description: '{{ doc("mart_jobs__column_country_code_docs") }}'
+      - name: traffic_source_id
+        description: '{{ doc("mart_jobs__column_event_traffic_source_id_docs") }}'
+      - name: nwt_dbt_updated_at_utc
+        description: '{{ doc("mart_jobs__column_dbt_updated_at_utc_docs") }}'
+      - name: adobe_dbt_updated_at_utc
+        description: '{{ doc("mart_jobs__column_dbt_updated_at_utc_docs") }}'
+  - name: fct_jobs__card_views
+    config:
+      tags:
+        - pii
+        - pii_update_only
+    description: Card views from all kinds of sources (native, web, Exasol).
+    columns:
+      - name: card_view_sk
+        description: '{{ doc("mart_jobs__column_card_view_sk_docs") }}'
+        data_tests:
+          - unique
+          - not_null
+      - name: created_at_utc
+        description: '{{ doc("mart_jobs__column_event_created_at_utc_docs") }}'
+      - name: posting_id
+        description: '{{ doc("mart_jobs__column_posting_id_docs") }}'
+      - name: xing_user_id
+        description: '{{ doc("mart_jobs__column_user_id_docs") }}'
+        config:
+          meta:
+            pii_id: xing_account
+      - name: login_status
+        description: '{{ doc("mart_jobs__column_event_login_status_docs") }}'
+      - name: event_sk
+        description: '{{ doc("mart_jobs__column_apply_completion_sk_docs") }}'
+      - name: page_name
+        description: '{{ doc("mart_jobs__column_event_page_name_docs") }}'
+      - name: element_name
+        description: '{{ doc("mart_jobs__column_event_element_name_docs") }}'
+      - name: element_detail
+        description: '{{ doc("mart_jobs__column_event_element_detail_docs") }}'
+      - name: notification_type
+        description: '{{ doc("mart_jobs__column_event_notification_type_docs") }}'
+      - name: activity_platform
+        description: '{{ doc("mart_jobs__column_event_activity_platform_docs") }}'
+      - name: visit_id
+        description: '{{ doc("mart_jobs__column_event_visit_id_docs") }}'
+      - name: activity_id
+        description: '{{ doc("mart_jobs__column_event_activity_id_docs") }}'
+      - name: visitor_id
+        description: '{{ doc("mart_jobs__column_event_visitor_id_docs") }}'
+      - name: device_type
+        description: '{{ doc("mart_jobs__column_device_type_docs") }}'
+      - name: country_code
+        description: '{{ doc("mart_jobs__column_country_code_docs") }}'
+      - name: traffic_source_id
+        description: '{{ doc("mart_jobs__column_event_traffic_source_id_docs") }}'
+      - name: nwt_dbt_updated_at_utc
+        description: '{{ doc("mart_jobs__column_dbt_updated_at_utc_docs") }}'
+      - name: adobe_dbt_updated_at_utc
+        description: '{{ doc("mart_jobs__column_dbt_updated_at_utc_docs") }}'
+  - name: fct_jobs__detail_views
+    config:
+      tags:
+        - pii
+        - pii_update_only
+    description: Detail views from all kinds of sources (native, web, API, Exasol).
+    columns:
+      - name: detail_view_id
+        description: '{{ doc("mart_jobs__column_detail_view_sk_docs") }}'
+        data_tests:
+          - unique
+          - not_null
+      - name: xing_user_id
+        description: '{{ doc("mart_jobs__column_user_id_docs") }}'
+        config:
+          meta:
+            pii_id: xing_account
+      - name: posting_id
+        description: '{{ doc("mart_jobs__column_posting_id_docs") }}'
+      - name: activity_platform
+        description: '{{ doc("mart_jobs__column_event_activity_platform_docs") }}'
+      - name: activity_platform_aggregated
+        description: '{{ doc("mart_jobs__column_activity_platform_aggregated_docs") }}'
+      - name: login_status
+        description: '{{ doc("mart_jobs__column_event_login_status_docs") }}'
+      - name: job_posting_view_internal_traffic_channel_id
+        description: '{{ doc("mart_jobs__column_job_posting_view_internal_traffic_channel_id_docs") }}'
+      - name: country_code
+        description: '{{ doc("mart_jobs__column_country_code_docs") }}'
+      - name: dach_flag
+        description: '{{ doc("mart_jobs__column_dach_flag_docs") }}'
+      - name: traffic_channel
+        description: '{{ doc("mart_jobs__column_traffic_channel_docs") }}'
+      - name: traffic_channel_group
+        description: '{{ doc("mart_jobs__column_traffic_channel_group_docs") }}'
+      - name: traffic_channel_class
+        description: '{{ doc("mart_jobs__column_traffic_channel_class_docs") }}'
+      - name: visit_id
+        description: '{{ doc("mart_jobs__column_event_visit_id_docs") }}'
+      - name: activity_id
+        description: '{{ doc("mart_jobs__column_event_activity_id_docs") }}'
+      - name: device_type
+        description: '{{ doc("mart_jobs__column_device_type_docs") }}'
+      - name: visitor_id
+        description: '{{ doc("mart_jobs__column_event_visitor_id_docs") }}'
+      - name: traffic_source_id
+        description: '{{ doc("mart_jobs__column_event_traffic_source_id_docs") }}'
+      - name: created_at_utc
+        description: '{{ doc("mart_jobs__column_event_created_at_utc_docs") }}'
+      - name: nwt_dbt_updated_at_utc
+        description: '{{ doc("mart_jobs__column_dbt_updated_at_utc_docs") }}'
+      - name: adobe_dbt_updated_at_utc
+        description: '{{ doc("mart_jobs__column_dbt_updated_at_utc_docs") }}'
+
+  - name: fct_jobs__postings_daily_performance
+    config:
+      tags:
+        - no_pii
+    data_tests:
+      - unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - date_id
+              - posting_id
+    columns:
+        - name: date_id
+          description: '{{ doc("mart_jobs__column_event_created_at_cet_docs") }}'
+        - name: posting_id
+          description: '{{ doc("mart_jobs__column_posting_id_docs") }}'
+        - name: job_detail_views
+          description: '{{ doc("mart_jobs__column_performance_metric_job_detail_views_docs") }}'
+        - name: bookmarks
+          description: '{{ doc("mart_jobs__column_performance_metric_bookmarks_docs") }}'
+        - name: apply_intentions
+          description: '{{ doc("mart_jobs__column_performance_metric_apply_intentions_docs") }}'
+        - name: unique_visitors
+          description: '{{ doc("mart_jobs__column_performance_metric_unique_visitors_docs") }}'
+        - name: daily_unique_visitors
+          description: '{{ doc("mart_jobs__column_performance_metric_daily_unique_visitors_docs") }}'
+        - name: apply_intentions_url_apply
+          description: '{{ doc("mart_jobs__column_performance_metric_apply_intentions_url_apply_docs") }}'
+        - name: apply_intentions_instant_apply
+          description: '{{ doc("mart_jobs__column_performance_metric_apply_intentions_instant_apply_docs") }}'
+        - name: applications
+          description: '{{ doc("mart_jobs__column_performance_metric_applications_docs") }}'
+        - name: daily_applications
+          description: '{{ doc("mart_jobs__column_performance_metric_daily_applications_docs") }}'
+        - name: impressions
+          description: '{{ doc("mart_jobs__column_performance_metric_impressions_docs") }}'
+  - name: fct_jobs__searches
+    config:
+      tags:
+        - pii
+    description: Intermediate table with job searches.
+    columns:
+      - name: event_sk
+        description: '{{ doc("mart_jobs__column_nwt_event_sk_docs") }}'
+      - name: created_at_utc
+        description: '{{ doc("mart_jobs__column_event_created_at_utc_docs") }}'
+      - name: event_name
+        description: '{{ doc("mart_jobs__column_nwt_event_name_docs") }}'
+      - name: flags
+        description: '{{ doc("mart_jobs__column_nwt_flags_docs") }}'
+      - name: platform_type
+        description: '{{ doc("mart_jobs__column_event_activity_platform_docs") }}'
+      - name: tracking_token
+        description: '{{ doc("mart_jobs__column_nwt_tracking_token_docs") }}'
+      - name: original_tracking_token
+          # description: NA
+      - name: posting_id
+        description: '{{ doc("mart_jobs__column_posting_id_docs") }}'
+      - name: xing_user_id
+        description: '{{ doc("mart_jobs__column_user_id_docs") }}'
+        config:
+          meta:
+            pii_id: xing_account
+      - name: query_parameters
+          # description: '{{ doc("mart_jobs__column_nwt_query_docs") }}'
+      - name: position
+          # description: NA
+      - name: experiment
+        description: '{{ doc("mart_jobs__column_nwt_experiment_docs") }}'
+
+  - name: fct_jobs__visits
+    config:
+      tags:
+        - pii
+        - pii_update_only
+    description: Detail views from all kinds of sources (native, web, API, Exasol).
+    columns:
+      - name: visit_id
+        description: '{{ doc("mart_jobs__column_event_visit_id_docs") }}'
+      - name: visitor_id
+        description: '{{ doc("mart_jobs__column_event_visitor_id_docs") }}'
+      - name: platform
+        description: '{{ doc("mart_jobs__column_activity_platform_aggregated_docs") }}'
+      - name: list_of_platforms
+        description: List of platforms that the visit was made on, for example, 'web, mobile'.
+      - name: visit_and_platform_id
+        description: Id of visit, primary key for the table.
+        data_tests:
+          - unique
+          - not_null
+      - name: country_code
+        description: '{{ doc("mart_jobs__column_country_code_docs") }}'
+      - name: device_type
+        description: '{{ doc("mart_jobs__column_device_type_docs") }}'
+      - name: campaign_information
+        description: '{{ doc("mart_jobs__column_event_traffic_source_id_docs") }}'
+      - name: visit_start_at
+        description: Timestamp when the visit started.
+      - name: visit_start_date
+        description: Date when the visit started.
+      - name: xing_user_ids
+        description: All distinct user_ids who participated on a same visit.
+      - name: xing_user_id
+        description: Maximum user_id for the visit.
+        config:
+          meta:
+            pii_id: xing_account
+      - name: number_of_applications_in_visit
+        description: Number of distinct apps in the visit.
+      - name: is_dach
+        description: '{{ doc("mart_jobs__column_dach_flag_docs") }}'
+      - name: region
+        description: The region of the visit, DACH if is_dach is true, otherwise the user's business region.
+      - name: login_status
+        description: '{{ doc("mart_jobs__column_event_login_status_docs") }}'
+      - name: membership_status
+        description: The membership status of the user, for example, 'Basic', 'Premium B2C'...
+      - name: number_of_user_ids_with_jdv
+        description: Number of distinct user_ids who performed job detail views on a same visit.
+      - name: user_ids_with_jdv
+        description: List of distinct user_ids who performed job detail views on a same visit.
+      - name: number_of_job_detail_views
+        description: Number of distinct job detail views in the visit.
+      - name: has_jdv
+        description: Flag indicating if the visit has job detail views.
+      - name: jdv_week_id
+        description: The minimum week of the job detail views in the visit.
+      - name: jdv_month_id
+        description: The minimum month of the job detail views in the visit.
+      - name: traffic_channel
+        description: '{{ doc("mart_jobs__column_traffic_channel_docs") }}'
+      - name: traffic_channel_group
+        description: '{{ doc("mart_jobs__column_traffic_channel_group_docs") }}'
+      - name: traffic_channel_class
+        description: '{{ doc("mart_jobs__column_traffic_channel_class_docs") }}'
