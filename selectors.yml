@@ -1,0 +1,56 @@
+selectors:
+  - name: all_pii_models
+    description: >
+        This selector returns all dbt models that were reviewed and contain pii data.
+        It is used in the weekly user data anonymization process which fully refreshes
+        every model returned by this selector.
+    default: false
+    definition:
+      union:
+        - method: tag
+          value: pii_data
+          children: true
+        - exclude:
+          - union:
+              - 'config.materialized:snapshot'
+              - 'config.materialized:view'
+              - 'config.materialized:ephemeral'
+              - 'tag:no_pii'
+              - 'tag:pii_update_only'
+
+  - name: analytics_models_using_pii
+    description: >
+        This selector returns all public dbt models that might contain pii data
+        as they reference sources that were tagged with pii tags.
+        We have to review and tag all models returned by this selector.
+        It is also used as the source for the Teams GDPR bot.
+    default: false
+    definition:
+      union:
+        - method: tag
+          value: pii_data
+          children: true
+        - exclude:
+          - union:
+            - _raw
+            - _internal
+            - 'tag:pii'
+            - 'tag:no_pii'
+            - 'config.schema:central_staging'
+            - 'config.schema:xms_staging'
+            - 'config.schema:xing_staging'
+            - 'config.schema:onlyfy_staging'
+            - 'config.materialized:ephemeral'
+
+  # - name: updated_pii_models
+  #   description: >
+  #       this was an attempt to identify pii models that were updated after
+  #       their initial pii review.
+  #   default: false
+  #   definition:
+  #     intersection:
+  #       - method: state
+  #         value: modified.body
+  #       - method: tag
+  #         value: pii
+
