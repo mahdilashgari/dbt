@@ -1,0 +1,166 @@
+models:
+  - name: base_ontology_city
+    description: ""
+    config:
+      tags: ['snowflake_data_sharing', 'snowflake_dp_ingestion', 'no_pii']
+    columns:
+      - name: adminarea
+      - name: adminarea1
+      - name: adminarea2
+      - name: adminarea3
+      - name: adminarea4
+      - name: country
+      - name: geonameid
+      - name: id
+        data_tests:
+          - unique
+      - name: lat
+      - name: lon
+      - name: ontology_version
+      - name: population
+      - name: timezone
+
+  - name: base_ontology_city_label
+    description: ""
+    config:
+      tags: ['snowflake_data_sharing', 'snowflake_dp_ingestion', 'no_pii']
+    data_tests:
+      - unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - label
+              - city
+              - lang
+    columns:
+      - name: label
+      - name: city
+      - name: lang
+      - name: ontology_version
+      - name: matching_only
+      - name: is_primary
+
+  - name: base_ontology_discipline
+    description: ""
+    config:
+      tags: ['snowflake_data_sharing', 'snowflake_dp_ingestion', 'no_pii']
+    columns:
+      - name: id
+        data_tests:
+          - unique
+      - name: phrase_id
+      - name: old_mapping_id
+      - name: ontology_version
+
+  - name: base_ontology_discipline_label
+    description: ""
+    config:
+      tags: ['snowflake_data_sharing', 'snowflake_dp_ingestion', 'no_pii']
+    data_tests:
+      - unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - discipline
+              - label
+              - lang
+    columns:
+      - name: discipline
+      - name: label
+      - name: lang
+      - name: is_primary
+      - name: matching_only
+      - name: ontology_version
+
+  - name: base_ontology_skill
+    description: ""
+    config:
+      tags: ['snowflake_data_sharing', 'snowflake_dp_ingestion', 'no_pii']
+    columns:
+      - name: id
+        data_tests:
+          - unique
+      - name: fragment
+      - name: is_soft
+      - name: ontology_version
+
+  - name: base_ontology_skill_label
+    description: ""
+    config:
+      tags: ['snowflake_data_sharing', 'snowflake_dp_ingestion', 'no_pii']
+    data_tests:
+      - unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - skill
+              - lang
+              - label
+    columns:
+      - name: skill
+      - name: label
+      - name: lang
+      - name: is_primary
+      - name: matching_only
+      - name: ontology_version
+
+  - name: base_tracy_user_career_level
+    description: ""
+    config:
+      tags: ['snowflake_data_sharing', 'snowflake_dp_ingestion', 'pii']
+    columns:
+      - name: user_id
+        data_type: number
+        description: ""
+        config:
+          meta:
+            pii_id: xing_account
+      - name: level_id
+        data_type: number
+        description: ""
+      - name: level_id_fine_grained
+        data_type: number
+        description: ""
+
+  - name: base_tracy_wtcj_predictions
+    description: ""
+    config:
+      tags: ['snowflake_data_sharing', 'snowflake_dp_ingestion', 'pii']
+    columns:
+      - name: user_id
+        data_type: number
+        description: ""
+        config:
+          meta:
+            pii_id: xing_account
+
+  - name: base_interaction_counter
+    description: ""
+    config:
+      tags: ['snowflake_data_sharing', 'snowflake_dp_ingestion']
+
+  - name: base_ontology_bcm_purple_salesforce_accounts
+    description: ""
+    config:
+      tags: ['snowflake_data_sharing', 'snowflake_dp_ingestion']
+
+  - name: base_xing_xas_aud_users_with_predictions_pub
+    description: ""
+    config:
+      tags: ['snowflake_data_sharing', 'snowflake_dp_ingestion', 'pii']
+    columns:
+      - name: user_id
+        data_type: number
+        description: ""
+        config:
+          meta:
+            pii_id: xing_account
+
+  - name: base_tracy_user_inferred_skills
+    description: ""
+    config:
+      tags: ['snowflake_data_sharing', 'snowflake_dp_ingestion', 'pii']
+    columns:
+      - name: profile_id
+        data_type: number
+        description: ""
+        config:
+          meta:
+            pii_id: xing_account

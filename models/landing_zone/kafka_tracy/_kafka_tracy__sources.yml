@@ -1,0 +1,23 @@
+version: 2
+sources:
+  - name: kafka_tracy
+    database: landing_zone
+    tables:
+      - name: activities_feeds_stream_snowpipe
+        data_tests:
+          - table_not_empty:
+              config:
+                severity: warn
+
+      - name: tracy_user_wtcj_snowpipe
+        data_tests:
+          - table_not_empty:
+              config:
+                severity: warn
+        config:
+          tags: ['pii_data']
+        columns:
+          - name: id
+            config:
+              meta:
+                pii_id: xing_account

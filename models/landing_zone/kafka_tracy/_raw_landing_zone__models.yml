@@ -1,0 +1,260 @@
+models:
+  - name: base_activities_feed_stream
+    description: "Base model for activities feed stream data"
+    config:
+      tags: ['kafka_tracy', 'raw', 'kafka_models']
+    columns:
+      - name: activity_id
+        data_type: number
+        description: ""
+
+      - name: delete
+        data_type: boolean
+        description: ""
+
+      - name: me_feed
+        data_type: array
+        description: ""
+
+      - name: timestamp
+        data_type: number
+        description: ""
+
+      - name: entity_page_feed
+        data_type: array
+        description: ""
+
+      - name: company_feed
+        data_type: array
+        description: ""
+
+      - name: news_feed
+        data_type: array
+        description: ""
+
+      - name: activities_feed_stream_sk
+        data_type: varchar
+        description: ""
+
+      - name: kafka_dt
+        data_type: varchar
+        description: ""
+
+      - name: actor_id
+        data_type: number
+        description: ""
+
+      - name: actor_urn
+        data_type: varchar
+        description: ""
+
+      - name: activity_changes
+        data_type: varchar
+        description: ""
+
+      - name: content
+        data_type: varchar
+        description: ""
+
+      - name: created_at
+        data_type: number
+        description: ""
+
+      - name: deleted_at
+        data_type: number
+        description: ""
+
+      - name: id
+        data_type: number
+        description: ""
+
+      - name: message
+        data_type: varchar
+        description: ""
+
+      - name: object_id
+        data_type: number
+        description: ""
+
+      - name: object_urn
+        data_type: varchar
+        description: ""
+
+      - name: origin_id
+        data_type: number
+        description: ""
+
+      - name: origin_urn
+        data_type: varchar
+        description: ""
+
+      - name: parent_id
+        data_type: number
+        description: ""
+
+      - name: parent_urn
+        data_type: varchar
+        description: ""
+
+      - name: story_type
+        data_type: varchar
+        description: ""
+
+      - name: taken_down_at
+        data_type: number
+        description: ""
+
+      - name: target_id
+        data_type: number
+        description: ""
+
+      - name: target_urn
+        data_type: varchar
+        description: ""
+
+      - name: updates
+        data_type: varchar
+        description: ""
+
+      - name: verb
+        data_type: varchar
+        description: ""
+
+      - name: visibility
+        data_type: varchar
+        description: ""
+
+      - name: metadata_kafka_topic
+        data_type: varchar
+        description: ""
+
+      - name: metadata_kafka_partition_number
+        data_type: varchar
+        description: ""
+
+      - name: metadata_kafka_partition_offset
+        data_type: number
+        description: ""
+
+      - name: metadata_kafka_message_arrival_ts
+        data_type: timestamp_ntz
+        description: ""
+
+      - name: metadata_kafka_message_arrival_ts_string
+        data_type: varchar
+        description: ""
+
+      - name: metadata_kafka_key
+        data_type: varchar
+        description: ""
+
+      - name: metadata_kafka_schema_id
+        data_type: varchar
+        description: ""
+
+      - name: metadata_kafka_message_header
+        data_type: varchar
+        description: ""
+
+      - name: metadata_snowflake_connector_push_time_ts
+        data_type: timestamp_ntz
+        description: ""
+
+      - name: metadata_snowflake_connector_push_time
+        data_type: variant
+        description: ""
+
+      - name: dt
+        data_type: date
+        description: ""
+
+      - name: activity
+        data_type: variant
+        description: ""
+
+  - name: base_tracy_user_wtcj
+    description: "Base model for Tracy user WTCJ data"
+    config:
+      tags: ['kafka_tracy', 'raw', 'kafka_models', 'pii']
+    columns:
+      - name: id
+        data_type: number
+        description: ""
+        config:
+          meta:
+            pii_id: xing_account
+      - name: meta
+        data_type: varchar
+        description: ""
+
+      - name: created_at
+        data_type: varchar
+        description: ""
+
+      - name: ttl
+        data_type: number
+        description: ""
+
+      - name: tracy_user_wtcj_sk
+        data_type: varchar
+        description: ""
+
+      - name: value_json
+        data_type: variant
+        description: ""
+
+      - name: probability
+        data_type: number
+        description: ""
+
+      - name: reasons
+        data_type: varchar
+        description: ""
+
+      - name: wtcj_class
+        data_type: varchar
+        description: ""
+
+      - name: metadata_kafka_topic
+        data_type: varchar
+        description: ""
+
+      - name: metadata_kafka_partition_number
+        data_type: varchar
+        description: ""
+
+      - name: metadata_kafka_partition_offset
+        data_type: number
+        description: ""
+
+      - name: metadata_kafka_message_arrival_ts
+        data_type: timestamp_ntz
+        description: ""
+
+      - name: metadata_kafka_message_arrival_ts_string
+        data_type: varchar
+        description: ""
+
+      - name: metadata_kafka_key
+        data_type: varchar
+        description: ""
+
+      - name: metadata_kafka_schema_id
+        data_type: varchar
+        description: ""
+
+      - name: metadata_kafka_message_header
+        data_type: varchar
+        description: ""
+
+      - name: metadata_snowflake_connector_push_time_ts
+        data_type: timestamp_ntz
+        description: ""
+
+      - name: metadata_snowflake_connector_push_time
+        data_type: variant
+        description: ""
+
+      - name: dt
+        data_type: date
+        description: ""

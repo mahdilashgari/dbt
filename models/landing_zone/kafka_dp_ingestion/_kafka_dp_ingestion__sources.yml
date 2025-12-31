@@ -1,0 +1,19 @@
+version: 2
+
+sources:
+  - name: kafka_dp_ingestion
+    database: landing_zone
+    schema: kafka_dp_ingestion
+    tables:
+      - name: asds_candidate_embedder_raw_embeddings_public_v1_snowpipe
+        data_tests:
+          - table_not_empty:
+              config:
+                severity: warn
+        config:
+          tags: ['pii_data']
+        columns:
+          - name: user_id
+            config:
+              meta:
+                pii_id: xing_account

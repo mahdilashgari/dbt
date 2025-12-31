@@ -1,0 +1,127 @@
+version: 2
+
+models:
+
+  - name: base_asds_candidate_embedder_raw_embeddings_public_v1
+    description: "Base model for ASDS Candidate Embedder Raw Embeddings Public v1 Kafka stream"
+    config:
+      tags: ['kafka_dp_ingestion', 'raw', 'kafka_models', 'pii']
+    columns:
+      - name: user_id
+        config:
+          meta:
+            pii_id: xing_account
+        data_type: varchar
+        description: "User ID associated with the candidate embedding."
+
+      - name: metadata_kafka_topic
+        data_type: varchar
+        description: "Kafka topic from which this record was ingested."
+
+      - name: metadata_kafka_partition_number
+        data_type: varchar
+        description: "Kafka partition number for the ingested message."
+
+      - name: metadata_kafka_partition_offset
+        data_type: number
+        description: "Kafka partition offset for the ingested message."
+
+      - name: metadata_kafka_message_arrival_ts
+        data_type: timestamp_ntz
+        description: "Kafka message arrival timestamp."
+
+      - name: metadata_kafka_message_arrival_ts_string
+        data_type: varchar
+        description: "Raw string form of Kafka message arrival timestamp."
+
+      - name: metadata_kafka_key
+        data_type: varchar
+        description: "Kafka message key."
+
+      - name: metadata_kafka_schema_id
+        data_type: varchar
+        description: "Schema registry ID for the Kafka message."
+
+      - name: metadata_kafka_message_header
+        data_type: varchar
+        description: "Kafka message header."
+
+      - name: metadata_snowflake_connector_push_time_ts
+        data_type: timestamp_ntz
+        description: "Timestamp when Snowflake connector pushed the record."
+
+      - name: metadata_snowflake_connector_push_time
+        data_type: variant
+        description: "Raw SnowflakeConnectorPushTime metadata field."
+
+      - name: metadata_kafka_message_arrival_ts_string
+        data_type: varchar
+        description: "Kafka message arrival timestamp as string (redundant for convenience)."
+
+      - name: metadata_kafka_message_header
+        data_type: varchar
+        description: "Header metadata from Kafka record."
+
+      - name: metadata_snowflake_connector_push_time_ts
+        data_type: timestamp_ntz
+        description: "Snowflake connector push time in timestamp format."
+
+      - name: metadata_snowflake_connector_push_time
+        data_type: variant
+        description: "Snowflake connector push time (raw variant)."
+
+      - name: metadata_kafka_topic
+        data_type: varchar
+        description: "Kafka topic name."
+
+      - name: metadata_kafka_partition_number
+        data_type: varchar
+        description: "Kafka partition number."
+
+      - name: metadata_kafka_partition_offset
+        data_type: number
+        description: "Kafka partition offset number."
+
+      - name: metadata_kafka_message_arrival_ts
+        data_type: timestamp_ntz
+        description: "Kafka message arrival timestamp."
+
+      - name: metadata_kafka_key
+        data_type: varchar
+        description: "Kafka message key value."
+
+      - name: metadata_kafka_schema_id
+        data_type: varchar
+        description: "Kafka schema ID."
+
+      - name: metadata_kafka_message_header
+        data_type: varchar
+        description: "Kafka message header details."
+
+      - name: metadata_snowflake_connector_push_time_ts
+        data_type: timestamp_ntz
+        description: "Snowflake connector push time in timestamp format."
+
+      - name: metadata_snowflake_connector_push_time
+        data_type: variant
+        description: "Snowflake connector push time as variant."
+
+      - name: metadata_kafka_message_arrival_ts_string
+        data_type: varchar
+        description: "String representation of Kafka arrival timestamp."
+
+      - name: metadata_kafka_schema_id
+        data_type: varchar
+        description: "Kafka schema ID for record validation."
+
+      - name: metadata_kafka_message_header
+        data_type: varchar
+        description: "Kafka header details."
+
+      - name: metadata_snowflake_connector_push_time_ts
+        data_type: timestamp_ntz
+        description: "Snowflake push timestamp."
+
+      - name: metadata_snowflake_connector_push_time
+        data_type: variant
+        description: "Snowflake push time as variant."

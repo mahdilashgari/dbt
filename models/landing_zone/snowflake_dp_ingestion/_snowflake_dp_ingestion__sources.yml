@@ -1,0 +1,99 @@
+version: 2
+sources:
+  - name: public_ontology
+    database: NWSE_DATA_PLATFORM_BI_SHARING_DATA_SNOWFLAKE_SHARE_1754488572876
+    tables:
+      - name: ontology_city
+        data_tests:
+          - table_not_empty
+
+      - name: ontology_city_label
+        data_tests:
+          - table_not_empty
+
+      - name: ontology_discipline
+        data_tests:
+          - table_not_empty
+
+      - name: ontology_discipline_label
+        data_tests:
+          - table_not_empty
+
+      - name: ontology_skill
+        data_tests:
+          - table_not_empty
+
+      - name: ontology_skill_label
+        data_tests:
+          - table_not_empty
+      
+      - name: bcm_purple_salesforce_accounts
+        data_tests:
+          - table_not_empty
+
+  - name: public_tracy
+    database: NWSE_DATA_PLATFORM_BI_SHARING_DATA_SNOWFLAKE_SHARE_1754488572876
+    tables:
+      - name: tracy_user_career_level
+        data_tests:
+          - table_not_empty:
+              config:
+                severity: warn
+        config:
+          tags: ['pii_data']
+        columns:
+          - name: user_id
+            config:
+              meta:
+                pii_id: xing_account
+      
+      - name: wtcj_predictions
+        data_tests:
+          - table_not_empty:
+              config:
+                severity: warn
+        config:
+          tags: ['pii_data']
+        columns:
+          - name: user_id
+            config:
+              meta:
+                pii_id: xing_account
+
+      - name: tracy_user_inferred_skills
+        data_tests:
+          - table_not_empty:
+              config:
+                severity: warn
+        config:
+          tags: ['pii_data']
+        columns:
+          - name: profile_id
+            config:
+              meta:
+                pii_id: xing_account
+
+  - name: public_xing_data_legacy
+    database: NWSE_DATA_PLATFORM_BI_SHARING_DATA_SNOWFLAKE_SHARE_1754488572876
+    tables:
+      - name: interactions_counter
+        data_tests:
+          - table_not_empty:
+              config:
+                severity: warn
+
+  - name: public_xing_xas
+    database: NWSE_DATA_PLATFORM_BI_SHARING_DATA_SNOWFLAKE_SHARE_1754488572876
+    tables:
+      - name: aud_users_with_predictions_pub
+        data_tests:
+          - table_not_empty:
+              config:
+                severity: warn
+        config:
+          tags: ['pii_data']
+        columns:
+          - name: user_id
+            config:
+              meta:
+                pii_id: xing_account
