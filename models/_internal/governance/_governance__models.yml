@@ -1,0 +1,63 @@
+models:
+  - name: internal_raw_production_status
+    description: >
+      This view contains the production status (live, non_live) of all views
+      in the raw database.
+    columns:
+      - name: table_name
+        description: fully qualified name of the table
+
+  - name: internal_landing_zone_columns
+    description: >
+      This view contains all columns in the landing zone.
+      Used for the automated pii classification of newly added columns.
+
+  - name: internal_landing_zone_tables_unclassified
+    description: >
+      This view returns all tables in landing_zone database
+      that contain columns which have not been reviewed
+      by the automated pii classification process.
+
+  - name: internal_landing_zone_pii_classifications
+    description: >
+      This view returns all the latest pii classifications
+      for columns in the landing_zone database.
+
+  - name: internal_landing_zone_pii_classifications_ready_for_export
+    description: >
+      This view returns all the pii classifications and compares them
+      with a logging table to determine which classifications have not been
+      added to the source system yaml files yet.
+      The logging table prevents the process from overwriting manual
+      adjustments to the source system yaml files.
+      (it will only export the classification result once and if a user
+      decides to remove the result because it was incorrect, it will not
+      be exported again).
+
+  - name: internal_deleted_ids
+    description: >
+      This view gathers all ids of entities that are relevant for the 
+      anonymization process. It includes all hard (physically removed from the source) 
+      and soft deleted (marked as deleted in the data) ids for all entities
+      such as users, salesforce contacts, prescreen candidates etc.
+
+  - name: internal_large_pii_tables
+    description: >
+      This view returns all tables in snapshots and analytics that contain
+      a column that was marked with the pii identifier tag. When these 
+      columns contain ids from internal_deleted_ids, the respective rows
+      are anonymized.
+
+  - name: internal_all_pii_columns
+    description: >
+      This view returns all columns in snapshots and analytics that were
+      marked with the pii_privacy_category tag. These columns are anonymized
+      for each row that contains an id from internal_deleted_ids.
+
+  - name: internal_pii_anonymization_log
+    description: >
+      This incremental model logs each run of the pii anonymization process
+      with a timestamp, process type and status. Will be run from pii anonymization
+      workflows to log the process start and end.
+
+    

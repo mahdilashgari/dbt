@@ -1,0 +1,25 @@
+version: 2
+sources:
+- 
+  name: governance
+  database: internal
+  tables:
+  - name: snowflake_privacy_classification_results
+  - name: snowflake_privacy_classification_mapping
+  - name: landing_zone_pii_classifications_exported_to_source
+  - name: large_table_anonymizations
+  - name: deleted_ids_mapping
+- 
+  name: landing_zone_information_schema
+  database: landing_zone
+  schema: information_schema
+  tables:
+  - name: columns
+  - name: tables
+- 
+  name: snowflake_account_usage
+  database: snowflake
+  schema: account_usage
+  tables:
+  - name: tag_references
+  - name: tables
