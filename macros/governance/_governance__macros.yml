@@ -1,0 +1,70 @@
+macros:
+
+  - name: apply_source_meta_as_tags
+    description: |
+      This macro is executed after every dbt production run and is part
+      of our data governance.
+      It checks the columns in the sources yaml for meta keys and attempts to
+      apply them as snowflake tags to the corresponding columns in the downstream
+      snapshot table.
+
+      The tags are added read from the source files because snapshot 
+      property files are broken in dbt.
+
+      If this macro fails, please double check the sources file:
+      1. The column name is correct
+      2. valid meta keys are pii_id and pii_privacy_category
+
+      Correct example in sources.yml:
+      ```
+      - name: accounts
+        columns:
+          - name: user_id
+            meta:
+              pii_id: xing_account
+          - name: email
+            meta:
+              pii_privacy_category: identifier
+          - name: zip_code
+            meta:
+              pii_privacy_category: quasi_identifier
+      ```
+
+  - name: apply_model_meta_as_tags
+    description: |
+      This macro is executed after every dbt production run and is part
+      of our data governance.
+
+      It checks the columns in the models' yaml config for meta keys and attempts to
+      apply them as snowflake tags to the model's output view/table on snowflake.
+
+      If this macro fails, please double check the models' yaml config:
+      1. The column names are correct
+      2. Every column that contains personal identifiable information (PII) has the correct meta keys
+      3. valid meta keys are pii_id and pii_privacy_category
+
+      see the following example for a correct models yaml config:
+      ```
+      - name: this_is_an_example_that_contains_pii
+        config:
+          tags:
+            - pii
+        columns:
+          - name: user_id
+            meta:
+              pii_id: xing_account
+          - name: email
+            meta:
+              pii_privacy_category: identifier
+          - name: zip_code
+            meta:
+              pii_privacy_category: quasi_identifier
+
+      - name: this_is_an_example_that_does_not_contain_pii
+        config:
+          tags:
+            - no_pii
+        columns:
+          - name: column_1
+          - name: column_n
+      ```
